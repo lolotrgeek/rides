@@ -7,7 +7,7 @@ module.exports = function(Subscriber) {
     geoService.geocode.apply(geoService, arguments);
   });
 
-
+//No Sensor, grab the address
   Subscriber.beforeRemote('prototype.updateAttributes', function(ctx, user, next) {
     var body = ctx.req.body;
     console.log('beforeRemote -- prototype.updateAttributes');
@@ -38,50 +38,53 @@ module.exports = function(Subscriber) {
   });
 
 
-  Subscriber.getWeather = function(subscriberId, cb){
-    Subscriber.findById(subscriberId, function (err, instance) {
 
-      if (err) {
-        return cb(err);
-      }
 
-      if (instance && instance.preferences) {
-        var lat = instance.geo.lat;
-        var lon = instance.geo.lng;
-        var units = instance.preferences.temperature;
+  //The Rides
+  Subscriber.getRides = function (subscriberId, cb) {
+      Subscriber.findById(subscriberId, function (err, instance) {
 
-        var openWeatherMap = Subscriber.app.dataSources.openweathermap;
-        openWeatherMap.getweather
-        (
-          lat,
-          lon,
-          units,
-          function(err, results){
-
-            if (err) {
-              cb(err);
-            } else {
-              //console.log(results);
-              cb(null, results);
-            }
-
+          if (err) {
+              return cb(err);
           }
-        );
 
-      } else {
-        cb(null, {});
-      }
+          //parse location
+          if (instance && instance.preferences) {
+              var lat = instance.geo.lat;
+              var lon = instance.geo.lng;
 
-    })
+              //find nearby rides
+              var rides = Subscriber.app.dataSources.rides;
+              rides.getrides
+              (
+                lat,
+                lon,
+                function (err, results) {
+
+                    if (err) {
+                        cb(err);
+                    } else {
+                        //console.log(results);
+                        cb(null, results);
+                    }
+
+                }
+              );
+
+          } else {
+              cb(null, {});
+          }
+
+      })
   };
 
 
-  Subscriber.remoteMethod('getWeather', {
-    accepts: [
-      {arg: 'id', type: 'string', required: true}
-    ],
-    http: {path: '/:id/weather', verb: 'get'},
-    returns: {arg: 'weather', type: 'object'}
+  Subscriber.remoteMethod('getRides', {
+      accepts: [
+        { arg: 'id', type: 'string', required: true }
+      ],
+      http: { path: '/:id/rides', verb: 'get' },
+      returns: { arg: 'rides', type: 'object' }
   });
 
 };

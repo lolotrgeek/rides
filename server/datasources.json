@@ -40,32 +40,30 @@
       }
     ]
   },
-  "openweathermap": {
-    "name": "openweathermap",
+  "rides": {
+    "name": "rides",
     "connector": "rest",
     "debug": true,
     "operations": [
       {
         "template": {
           "method": "GET",
-          "url": "http://api.openweathermap.org/data/2.5/forecast/daily",
+          "url": "http://192.168.1.113:4000/rides",
           "headers": {
             "accepts": "application/json",
             "content-type": "application/json"
           },
           "query": {
             "lat": "{lat}",
-            "lon": "{lon}",
-            "units": "{units}",
-            "APPID": "c511532f2d698950f73353371cec4a90"
+            "lon": "{lon}"
+
           },
           "responsePath": "$.list"
         },
         "functions": {
-          "getweather": [
+          "getrides": [
             "lat",
-            "lon",
-            "units"
+            "lon"
           ]
         }
       }

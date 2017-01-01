@@ -820,10 +820,10 @@ module.factory(
          *
          * Data properties:
          *
-         *  - `weather` – `{object=}` - 
+         *  - `rides` – `{object=}` - 
          */
-        "getWeather": {
-          url: urlBase + "/Subscribers/:id/weather",
+        "getRides": {
+          url: urlBase + "/Subscribers/:id/rides",
           method: "GET"
         },
 

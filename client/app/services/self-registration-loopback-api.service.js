@@ -12,7 +12,7 @@
 
     var service = {
       retrieveCurrentUser: retrieveCurrentUser,
-      getWeather: getWeather,
+      getRides: getRides,
       savePreferences: savePreferences
 
     };
@@ -29,10 +29,10 @@
           });
     }
 
-    function getWeather(subscriber) {
+    function getRides(subscriber) {
 
       return Subscriber
-        .getWeather(
+        .getRides(
              {
                id: subscriber.id
              }

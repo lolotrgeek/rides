@@ -21,7 +21,7 @@
       "principalType": "ROLE",
       "principalId": "$authenticated",
       "permission": "ALLOW",
-      "property": "getWeather"
+      "property": "getRides"
     }
   ],
   "methods": []
