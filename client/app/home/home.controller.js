@@ -6,9 +6,9 @@
   selfRegistrationLoopBack.controller('HomeCtrl', HomeCtrl);
 
   selfRegistrationLoopBack.$inject =
-    ['appSpinner', 'selfRegistrationLoopBackApi', '$q', '$rootScope', '$state'];
+    ['appSpinner', 'selfRegistrationLoopBackApi', '$q', '$rootScope', '$state', '$scope'];
 
-  function HomeCtrl($rootScope, $state, selfRegistrationLoopBackApi) {
+  function HomeCtrl($rootScope, $state, selfRegistrationLoopBackApi, $scope) {
 
     var vm = this;
 
@@ -26,6 +26,23 @@
       $state.go('signup');
     }
 
+		//Listen for changes on the address inputs
+		$scope.$watch( 'vm.currentUser.route.start_address',
+		function(newValue, oldValue){
+		console.log('Start Changed');
+		console.log(newValue);
+		console.log(oldValue);
+		}
+		);
+
+		$scope.$watch( 'vm.currentUser.route.end_address',
+		function(newValue, oldValue){
+		console.log('End Changed');
+		console.log(newValue);
+		console.log(oldValue);
+		}
+		);	
+		
     function saveRoute() {
         if (vm.currentUser.route.start_address  &&
             vm.currentUser.route.start_address  !== ""  &&
@@ -36,10 +53,10 @@
             .saveRoute(vm.currentUser)
             .then(function(){
                console.log("Route saved!");
-			   $state.go('home');
-
+			  
             });
         }
+
     }
 	
     function getRides() {
@@ -50,7 +67,8 @@
 		.getRides(vm.currentUser)
           .then(function (ridesData) {			  
             vm.ridesData = ridesData.rides; //populate the variable with the ride data
-          });
+			console.log('rides gotten');
+		  });
       }
 	  
     }

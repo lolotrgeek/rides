@@ -5,15 +5,15 @@
   <div class="col-lg-6">
     <div class="jumbotron">
       <p>To view rides in your area, go to: <a href="#/preferences" data-toggle="tab">Address</a> and specify valid starting and ending addresses.</p>
-		    <form class="form-horizontal" ng-submit="preferencesVm.savePreferences()">
+		    <form class="form-horizontal" ng-submit="vm.saveRoute()">
       <fieldset>
 
 
         <div class="form-group">
           <div class="col-lg-10">
-            <input type="text" class="form-control" id="inputstartAddress" placeholder="Start" ng-model="vm.currentUser.route.start_address">
+            <input type="text" class="form-control" id="inputstartAddress" placeholder="Start" ng-model="vm.currentUser.route.start_address" ng-change="vm.getRides(vm.currentUser.route)" ng-model-options="{debounce: 750}">
     
-            <input type="text" class="form-control" id="inputendAddress" placeholder="Destination" ng-model="vm.currentUser.route.end_address">
+            <input type="text" class="form-control" id="inputendAddress" placeholder="Destination" ng-model="vm.currentUser.route.end_address" ng-change="vm.getRides(vm.currentUser.route.)" ng-model-options="{debounce: 750}">
           </div>
         </div>
 		
@@ -30,8 +30,7 @@
 		<div map-lazy-load="https://maps.google.com/maps/api/js?libraries=placeses,visualization,drawing,geometry,places">
 			<ng-map zoom="14" center="current-location">
 					<marker position="current" animation="Animation.BOUNCE" centered="true"></marker>
-					<info-window ng-repeat="eta in vm.ridesData" id="{{eta.eta_seconds}}" visible-on-marker="{{eta.estimated_cost_cents}}">{{eta.eta_seconds}}</info-window>
-					<marker ng-repeat="pos in vm.ridesData" onclick="map.showInfoWindow('{{pos.eta_seconds}}' id="{{pos.etimated_cost_cents}}")" position="{{pos.lat}},{{pos.lon}}"></marker>
+					<marker ng-repeat="pos in vm.ridesData"  position="{{pos.lat}},{{pos.lon}}"></marker>
 			</ng-map>
 		</div>
 	</div>
@@ -51,7 +50,7 @@
 			<th>Lat</th>
 			<th>Lon</th>
         </tr>
-        <tr ng-repeat="rides in vm.ridesData" ng-click="map.showInfoWindow('{{rides.eta_seconds}}')">
+        <tr ng-repeat="rides in vm.ridesData">
           <td>{{rides.ride_type}}</td>
 		  <td>{{rides.estimated_duration_seconds}}</td>
 		  <td>{{rides.eta_seconds}}</td>
