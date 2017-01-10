@@ -12,27 +12,44 @@
 
     var vm = this;
 
-    vm.currentUser = $rootScope.currentUser;
+    vm.currentUser = $rootScope.currentUser; //define the session
 
-    vm.getRides = getRides;
+    vm.getRides = getRides; 
 
     vm.ridesData = null;
 
     vm.getRides();
-
-    if ($rootScope.currentUser == null) {
+	
+	vm.saveRoute = saveRoute;
+	
+    if ($rootScope.currentUser == null) { //Show signup page if no session
       $state.go('signup');
     }
 
+    function saveRoute() {
+        if (vm.currentUser.route.start_address  &&
+            vm.currentUser.route.start_address  !== ""  &&
+            vm.currentUser.route.end_address  &&
+            vm.currentUser.route.end_address  !== "" ) {
+
+          selfRegistrationLoopBackApi
+            .saveRoute(vm.currentUser)
+            .then(function(){
+               console.log("Route saved!");
+			   $state.go('home');
+
+            });
+        }
+    }
+	
     function getRides() {
-	
-		console.log('getRides is running.');
-	
-      if (vm.currentUser && vm.currentUser.preferences) {
+		console.log('getRides is running.');	
+	  
+      if (vm.currentUser && vm.currentUser.route) { //make sure we're logged in and location is set
         selfRegistrationLoopBackApi
-          .getRides(vm.currentUser)
-          .then(function (ridesData) {
-            vm.ridesData = ridesData.rides;
+		.getRides(vm.currentUser)
+          .then(function (ridesData) {			  
+            vm.ridesData = ridesData.rides; //populate the variable with the ride data
           });
       }
 	  

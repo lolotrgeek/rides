@@ -13,6 +13,7 @@
     var service = {
       retrieveCurrentUser: retrieveCurrentUser,
       getRides: getRides,
+	  saveRoute: saveRoute,
       savePreferences: savePreferences
 
     };
@@ -40,6 +41,13 @@
         .$promise;
     }
 
+    function saveRoute(subscriber) {
+      return Subscriber
+             .upsert(subscriber)
+             .$promise;
+
+    }	
+	
     function savePreferences(subscriber) {
       return Subscriber
              .upsert(subscriber)
@@ -62,6 +70,7 @@
             tokenId: response.id,
             username: response.user.username,
             email: email,
+			route: response.user.route, //remove, dont want to remember old routes
             preferences: response.user.preferences || null
           };
         });

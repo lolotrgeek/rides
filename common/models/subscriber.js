@@ -12,11 +12,11 @@ module.exports = function(Subscriber) {
     var body = ctx.req.body;
     console.log('beforeRemote -- prototype.updateAttributes');    
     if (body                    &&
-        body.preferences        &&
-        body.preferences.start_address &&
-        body.preferences.end_address ) {
+        body.route        &&
+        body.route.start_address &&
+        body.route.end_address ) {
 
-      var loc = body.preferences;
+      var loc = body.route;
 
       // geocode start
       lookupGeo(loc.start_address, 
@@ -61,7 +61,7 @@ module.exports = function(Subscriber) {
 
           //parse location
           //parse location
-          if (instance && instance.preferences) {
+          if (instance && instance.route) {
               var start_lat = instance.geo.lat;
               var start_lon = instance.geo.lng;
               var end_lat = instance.endgeo.lat;
