@@ -1,12 +1,19 @@
-<h2 class="page-title">Home</h2>
+<h2 class="page-title">Hello, {{vm.currentUser.username}}!</h2>
 
 <div class="row-fluid">
 
   <div class="col-lg-6">
     <div class="jumbotron">
-      <h1>Hello, {{vm.currentUser.username}}!</h1>
       <p>To view rides in your area, go to: <a href="#/preferences" data-toggle="tab">Address</a> and specify valid starting and ending addresses.</p>
-    </div>
+		
+		<div map-lazy-load="https://maps.google.com/maps/api/js?libraries=placeses,visualization,drawing,geometry,places">
+			<ng-map zoom="14" center="current-location">
+					<marker position="current" animation="Animation.BOUNCE" centered="true"></marker>
+					<info-window ng-repeat="eta in vm.ridesData" id="{{eta.eta_seconds}}" visible-on-marker="{{eta.estimated_cost_cents}}">{{eta.eta_seconds}}</info-window>
+					<marker ng-repeat="pos in vm.ridesData" onclick="map.showInfoWindow('{{pos.eta_seconds}}' id="{{pos.etimated_cost_cents}}")" position="{{pos.lat}},{{pos.lon}}"></marker>
+			</ng-map>
+		</div>
+	</div>
 
   </div>
 
@@ -23,7 +30,7 @@
 			<th>Lat</th>
 			<th>Lon</th>
         </tr>
-        <tr ng-repeat="rides in vm.ridesData">
+        <tr ng-repeat="rides in vm.ridesData" ng-click="map.showInfoWindow('{{rides.eta_seconds}}')">
           <td>{{rides.ride_type}}</td>
 		  <td>{{rides.estimated_duration_seconds}}</td>
 		  <td>{{rides.eta_seconds}}</td>

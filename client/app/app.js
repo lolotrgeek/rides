@@ -2,7 +2,7 @@
     'use strict';
     var app = angular.module('selfRegistrationLoopBack', [
         // Angular modules
-
+		'ngMap',
         // 3rd Party Modules
         'ui.router',
         'lbServices'
