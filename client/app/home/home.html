@@ -5,7 +5,7 @@
   <div class="col-lg-6">
     <div class="jumbotron">
       <h1>Hello, {{vm.currentUser.username}}!</h1>
-      <p>To view the weather in your area, go to: <a href="#/preferences" data-toggle="tab">Address</a> and specify a valid address.</p>
+      <p>To view rides in your area, go to: <a href="#/preferences" data-toggle="tab">Address</a> and specify valid starting and ending addresses.</p>
     </div>
 
   </div>
@@ -15,10 +15,21 @@
       <table class="table table-striped table-hover" ng-show="vm.ridesData">
 
         <tbody>
+		<tr>
+			<th>Service</th>
+			<th>Estimated Time</th>
+			<th>ETA</th>
+			<th>Cost</th>
+			<th>Lat</th>
+			<th>Lon</th>
+        </tr>
         <tr ng-repeat="rides in vm.ridesData">
-          <td>{{dayWeather.dt*1000 | date:"EEEE"}}</td>
-          <!--<td><img ng-src="http://openweathermap.org/img/w/{{dayWeather.weather[0].icon}}.png"></td>-->
-          <td>{{rides.ride_type | number:0}}/{{rides.eta_seconds | number:0}}</td>
+          <td>{{rides.ride_type}}</td>
+		  <td>{{rides.estimated_duration_seconds}}</td>
+		  <td>{{rides.eta_seconds}}</td>
+		  <td>{{rides.estimated_cost_cents}}</td>
+		  <td>{{rides.lat}}</td>
+		  <td>{{rides.lon}}</td>
         </tr>
 
         </tbody>

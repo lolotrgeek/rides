@@ -25,16 +25,14 @@
             "content-type": "application/json"
           },
           "query": {
-            "address": "{street},{city},{zipcode}",
+            "address": "{address}",
             "sensor": "{sensor=false}"
           },
           "responsePath": "$.results[0].geometry.location"
         },
         "functions": {
           "geocode": [
-            "street",
-            "city",
-            "zipcode"
+            "address"
           ]
         }
       }
@@ -48,22 +46,24 @@
       {
         "template": {
           "method": "GET",
-          "url": "http://192.168.1.113:4000/rides",
+          "url": "http://localhost:4000/nearby",
           "headers": {
             "accepts": "application/json",
             "content-type": "application/json"
           },
           "query": {
-            "lat": "{lat}",
-            "lon": "{lon}"
-
-          },
-          "responsePath": "$.list"
+            "start_lat": "{start_lat}",
+            "start_lon": "{start_lon}",
+            "end_lat": "{end_lat}",
+            "end_lon": "{end_lon}"
+          }
         },
         "functions": {
           "getrides": [
-            "lat",
-            "lon"
+            "start_lat",
+            "start_lon",
+            "end_lat",
+            "end_lon"
           ]
         }
       }

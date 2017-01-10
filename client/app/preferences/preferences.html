@@ -1,33 +1,21 @@
 
-<h2 class="page-title">Address</h2>
+<h2 class="page-title">Addresses</h2>
 
 <div class="row-fluid">
   <div class="col-lg-6">
-
-    <form class="form-horizontal jumbotron" ng-submit="preferencesVm.savePreferences()">
+  
+    <form class="form-horizontal" ng-submit="preferencesVm.savePreferences()">
       <fieldset>
 
-        <legend>Please Enter the Weather Address</legend>
 
         <div class="form-group">
           <div class="col-lg-10">
-            <input type="text" class="form-control" id="inputStreet" placeholder="Street" ng-model="preferencesVm.currentUser.preferences.street">
+            <input type="text" class="form-control" id="inputstartAddress" placeholder="Start" ng-model="preferencesVm.currentUser.preferences.start_address">
+    
+            <input type="text" class="form-control" id="inputendAddress" placeholder="Destination" ng-model="preferencesVm.currentUser.preferences.end_address">
           </div>
         </div>
-
-        <div class="form-group">
-          <div class="col-lg-10">
-            <input type="text" class="form-control" id="inputCity" placeholder="City" ng-model="preferencesVm.currentUser.preferences.city">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <div class="col-lg-10">
-            <input type="text" class="form-control" id="inputZipCode" placeholder="ZipCode" ng-model="preferencesVm.currentUser.preferences.zipcode">
-          </div>
-        </div>
-
-
+		
         <div class="form-group">
           <div class="col-lg-6 col-lg-offset-6">
             <button type="reset" class="btn btn-default">Cancel</button>

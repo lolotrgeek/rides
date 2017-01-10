@@ -7,27 +7,38 @@ module.exports = function(Subscriber) {
     geoService.geocode.apply(geoService, arguments);
   });
 
-//No Sensor, grab the address
   Subscriber.beforeRemote('prototype.updateAttributes', function(ctx, user, next) {
+        
     var body = ctx.req.body;
-    console.log('beforeRemote -- prototype.updateAttributes');
+    console.log('beforeRemote -- prototype.updateAttributes');    
     if (body                    &&
         body.preferences        &&
-        body.preferences.street &&
-        body.preferences.city   &&
-        body.preferences.zipcode ) {
+        body.preferences.start_address &&
+        body.preferences.end_address ) {
 
       var loc = body.preferences;
 
-      // geo code the address
-      lookupGeo(loc.street, loc.city, loc.zipcode,
+      // geocode start
+      lookupGeo(loc.start_address, 
         function(err, result) {
            if (result && result[0]) {
             body.geo = result[0];
-            next();
+             console.log(result);
           } else {
              //TODO: Need to find out how to handle this with better a UX experience
             next(new Error('could not find location'));
+          }
+        });
+		//geocode end
+      lookupGeo(loc.end_address, 
+        function(err, end_result) {
+           if (end_result && end_result[0]) {
+            body.endgeo = end_result[0];
+             console.log(end_result);
+			next();
+          } else {
+             //TODO: Need to find out how to handle this with better a UX experience
+			next(new Error('could not find location'));
           }
         });
 
@@ -49,22 +60,29 @@ module.exports = function(Subscriber) {
           }
 
           //parse location
+          //parse location
           if (instance && instance.preferences) {
-              var lat = instance.geo.lat;
-              var lon = instance.geo.lng;
-
+              var start_lat = instance.geo.lat;
+              var start_lon = instance.geo.lng;
+              var end_lat = instance.endgeo.lat;
+              var end_lon = instance.endgeo.lng;
+			  
+				
               //find nearby rides
               var rides = Subscriber.app.dataSources.rides;
-              rides.getrides
+			  
+			  rides.getrides
               (
-                lat,
-                lon,
+                start_lat,
+                start_lon,
+                end_lat,
+                end_lon,
                 function (err, results) {
 
                     if (err) {
                         cb(err);
                     } else {
-                        //console.log(results);
+                        console.log(results);
                         cb(null, results);
                     }
 

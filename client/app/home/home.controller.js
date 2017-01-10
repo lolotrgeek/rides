@@ -25,18 +25,18 @@
     }
 
     function getRides() {
-
+	
+		console.log('getRides is running.');
+	
       if (vm.currentUser && vm.currentUser.preferences) {
         selfRegistrationLoopBackApi
           .getRides(vm.currentUser)
           .then(function (ridesData) {
-            vm.ridesData = ridesData.rides[0];
+            vm.ridesData = ridesData.rides;
           });
       }
+	  
     }
-
-
-
-
+	
   }
 })();

@@ -12,17 +12,14 @@
   function PreferencesCtrl($rootScope, selfRegistrationLoopBackApi, $state) {
     var vm = this;
 
-
     vm.savePreferences = savePreferences;
     vm.currentUser =  $rootScope.currentUser;
 
     function savePreferences() {
-        if (vm.currentUser.preferences.street  &&
-            vm.currentUser.preferences.street  !== ""  &&
-            vm.currentUser.preferences.city    &&
-            vm.currentUser.preferences.city    !== ""  &&
-            vm.currentUser.preferences.zipcode &&
-            vm.currentUser.preferences.zipcode !== "") {
+        if (vm.currentUser.preferences.start_address  &&
+            vm.currentUser.preferences.start_address  !== ""  &&
+            vm.currentUser.preferences.end_address  &&
+            vm.currentUser.preferences.end_address  !== "" ) {
 
           selfRegistrationLoopBackApi
             .savePreferences(vm.currentUser)
