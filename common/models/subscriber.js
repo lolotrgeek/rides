@@ -5,6 +5,11 @@
 // Send 
 module.exports = function(Subscriber) {
    
+   //TODO: 
+   //Subscriber.authenticate   
+	   // OAuth for each service
+	   // foreach save client id and secret
+   
   // Google Maps API has a rate limit of 10 requests per second
   // Seems we need to enforce a lower rate to prevent errors
   var lookupGeo = require('function-rate-limit')(5, 1000, function() {
@@ -108,4 +113,9 @@ module.exports = function(Subscriber) {
       returns: { arg: 'rides', type: 'object' }
   });
 
+ //TODO: 
+// Subsciber.selectedRide 
+	// user selects a ride
+ 
+  
 };

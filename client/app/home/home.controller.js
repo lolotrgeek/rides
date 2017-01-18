@@ -8,7 +8,7 @@
   selfRegistrationLoopBack.$inject =
     ['appSpinner', 'selfRegistrationLoopBackApi', '$q', '$rootScope', '$state', '$scope', '$interval', 'ngMap'];
 
-    function HomeCtrl($rootScope, $state, selfRegistrationLoopBackApi, $scope, $interval, NgMap, NavigatorGeolocation, GeoCoder) {
+    function HomeCtrl($rootScope, $state, selfRegistrationLoopBackApi, $scope, $interval, NgMap, NavigatorGeolocation, GeoCoder, Attr2MapOptions) {
 
     var vm = this;
 
@@ -23,84 +23,40 @@
     vm.getRides();
 	
 	vm.saveRoute = saveRoute;
-	
-	vm.devicePosition = null;
-
-	vm.startPosition = null;
-	
+		
     // Load Signup page
 	if ($rootScope.currentUser == null) { 
       $state.go('signup'); 
     }
 	
+	
 	// Load Map
 		NgMap.getMap().then(function(map) {
 		vm.map = map; 
 	  });
-	  
-	// Get Device Location
-		
-		var options = {
-			enableHighAccuracy: true
-		};
-					
-		NavigatorGeolocation.getCurrentPosition(function(pos) {
-				vm.devicePosition = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-				
-				console.log(JSON.stringify(vm.devicePosition));                  
-			}, 
-			function(error) {                    
-				alert('Unable to get location: ' + error.message);
-			}, options);
-		
-
 	
-	// View Device Location
-	vm.viewDeviceLocation = function () {
-		if (vm.devicePosition !== null) {
-			vm.map.setCenter(vm.devicePosition);
-		}
-		alert('Cannot find Device Location.');
-	};
-	
-	// Start Location Device
-	vm.startLocationDevice = function () {	
-		if (vm.devicePosition !== null) {
-			vm.viewDeviceLocation();
-			vm.currentUser.route.start_address = "Your Location";
-			vm.startPosition = vm.devicePosition;
-		}
-		alert('Cannot set Device Location.');
-	};	
-	// Start Location Input
-	function startLocationInput() {
-		vm.startPosition = vm.currentUser.route.start_address; 	
-	}
-	// Geocode Start
-	 function geocodeStart() {
-		GeoCoder.geocode({address: vm.currentUser.route.start_address}).then(function(result) {
-			vm.startPosition = result;
-			
-			console.log('Address' +JSON.stringify(vm.startPosition)); 
-		});	
-	};
-  	
 	// Save Route  
     function saveRoute() { 
         if (vm.currentUser.route.start_address  &&
             vm.currentUser.route.start_address  !== ""  &&
             vm.currentUser.route.end_address  &&
             vm.currentUser.route.end_address  !== "" ) {
+				
+			vm.zoom = vm.map.getZoom(); 
+			console.log('zoom:' + vm.zoom);
+			vm.center = vm.map.getCenter();
+			console.log('center:' +vm.center);
 
           selfRegistrationLoopBackApi
             .saveRoute(vm.currentUser) 
             .then(function(){
                console.log("Route saved!");
-			   startLocationInput();
 			  getRides();
+			  
             });
         }
     }
+	
 	// Get Rides
     function getRides() { 
 		
@@ -118,23 +74,6 @@
 	  
     }
 	
-	// watch for changes on start address
-	$scope.$watch( 'vm.currentUser.route.start_address',
-		function(newValue, oldValue){
-			console.log('Start Changed');
-			console.log('new:' + newValue);
-			console.log('old:' + oldValue);
-		}
-	);
-	// watch for changes on start address
-	$scope.$watch( 'vm.currentUser.route.end_address',
-		function(newValue, oldValue){
-			console.log('End Changed');
-			console.log('new:' + newValue);
-			console.log('old:' + oldValue);
-		}
-	);
-	
 	// Sort Rides 
 	$scope.sortBy = function(propertyName) {
 
@@ -150,6 +89,14 @@
 	//$interval.cancel(stopRides);
 	//});
 		  	
+	//Clear destination
+	
+	
+	//Select Ride
+	function selectRide() {
+		
+		
+	}
 	
 	}
  
