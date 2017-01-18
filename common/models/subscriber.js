@@ -5,12 +5,11 @@
 // Send 
 module.exports = function(Subscriber) {
    
-   //TODO: 
-   //Subscriber.authenticate   
+   //TODO: Subscriber.authenticate   
 	   // OAuth for each service
 	   // foreach save client id and secret
    
-  // Google Maps API has a rate limit of 10 requests per second
+  // DEPRECATED: Google Maps API has a rate limit of 10 requests per second
   // Seems we need to enforce a lower rate to prevent errors
   var lookupGeo = require('function-rate-limit')(5, 1000, function() {
     var geoService = Subscriber.app.dataSources.geo;
@@ -68,13 +67,16 @@ module.exports = function(Subscriber) {
               return cb(err);
           }
 
-          // grab lats/lons from geocoder
+		  //TODO: grab ride details from front end
+		  
+          // DEPRECATED: grab lats/lons from geocoder
           if (instance && instance.route) {
               var start_lat = instance.geo.lat;
               var start_lon = instance.geo.lng;
               var end_lat = instance.endgeo.lat;
               var end_lon = instance.endgeo.lng;
 			  
+				  
 			  var rides = Subscriber.app.dataSources.rides;
 			  
 			  // send lats/lons to datasources
@@ -113,9 +115,20 @@ module.exports = function(Subscriber) {
       returns: { arg: 'rides', type: 'object' }
   });
 
- //TODO: 
-// Subsciber.selectedRide 
-	// user selects a ride
+ //TODO: Subsciber.requestRide 
+	// send ride request
  
-  
+ //TODO: Subscriber.cancelRide
+	// send cancel request 
+ 
+ //TODO: Subscriber.statusRide
+	// listen to service for status
+	
+ //TODO: Subscriber.completeRide
+	// statusRide returns complete
+	// kill statusRide
+ 
+
+//TODO: Subscriber.tripexperience
+ //??
 };

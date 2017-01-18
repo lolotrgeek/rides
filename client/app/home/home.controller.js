@@ -35,7 +35,13 @@
 		vm.map = map; 
 	  });
 	
-	// Save Route  
+	// TODO: rideDetails 
+		//starting/ending addresses
+			//geocode here
+		//number of passengers
+		//Type: fast or cheap
+	
+	//DEPRECATED: Save Route  
     function saveRoute() { 
         if (vm.currentUser.route.start_address  &&
             vm.currentUser.route.start_address  !== ""  &&
@@ -89,15 +95,19 @@
 	//$interval.cancel(stopRides);
 	//});
 		  	
-	//Clear destination
+	//TODO: Clear destination
 	
 	
-	//Select Ride
+	//TODO: Select Ride
 	function selectRide() {
 		
 		
 	}
+	//TODO: cancelRide()
+		// send cancellation to API
 	
+	//TODO: statusRide()
+		// grab callback from API
 	}
  
 })();
